@@ -43,8 +43,8 @@ CREATE TABLE fish_market_shop_holidays (holiday_id IDENTITY
 ## 3. API 사용 가이드
 #### 3-1. 다운받은 소스코드 프로젝트 Boot Dashboard 에서 was 실행
 #### 3-2. POSTMAN 앱 실행 후 API 진행 순서
-1)PUT localhost:8080/api/shop
-1-1)BODY 의 raw 선택 -> JSON(application/sjon) 선택
+1)PUT localhost:8080/api/shop  
+1-1)BODY 의 raw 선택 -> JSON(application/sjon) 선택  
 1-2)json 형식은 아래 ctrl+c, v
 ```
 {
@@ -82,7 +82,7 @@ CREATE TABLE fish_market_shop_holidays (holiday_id IDENTITY
  }
  ]
 }
-```
+```  
 1-3)Send
 
 2)PUT localhost:8080/api/shop
