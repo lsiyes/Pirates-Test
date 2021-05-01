@@ -44,8 +44,8 @@ CREATE TABLE fish_market_shop_holidays (holiday_id IDENTITY
 #### 3-1. 다운받은 소스코드 프로젝트 Boot Dashboard 에서 was 실행
 #### 3-2. POSTMAN 앱 실행 후 API 진행 순서
 1)PUT localhost:8080/api/shop
-BODY 의 raw 선택 -> JSON(application/sjon) 선택
-json 형식은 아래 ctrl+c, v
+1-1)BODY 의 raw 선택 -> JSON(application/sjon) 선택
+1-2)json 형식은 아래 ctrl+c, v
 ```
 {
  "name": "인어수산",
@@ -83,11 +83,11 @@ json 형식은 아래 ctrl+c, v
  ]
 }
 ```
-Send
+1-3)Send
 
 2)PUT localhost:8080/api/shop
-BODY 의 raw 선택 -> JSON(application/sjon) 선택
-json 형식은 아래 ctrl+c, v
+2-1)BODY 의 raw 선택 -> JSON(application/sjon) 선택
+2-2)json 형식은 아래 ctrl+c, v
 ```
 {
  "name": "해적수산",
@@ -125,11 +125,11 @@ json 형식은 아래 ctrl+c, v
  ]
 }
 ```
-Send
+2-3)Send
 
 3)PUT localhost:8080/api/holidays
-BODY 의 raw 선택 -> JSON(application/sjon) 선택
-json 형식은 아래 ctrl+c, v
+3-1)BODY 의 raw 선택 -> JSON(application/sjon) 선택
+3-2)json 형식은 아래 ctrl+c, v
 ```
 {
  "id": 1,
@@ -139,19 +139,20 @@ json 형식은 아래 ctrl+c, v
  ]
 }
 ```
-Send
+3-3)Send
 
 4)GET localhost:8080/api/shop
-Send
+4-1)Send
 
 5)GET localhost:8080/api/shopDetail?id=1
+5-1)Send
 
 6)DELETE localhost:8080/api/shop
-BODY 의 raw 선택 -> JSON(application/sjon) 선택
-json 형식은 아래 ctrl+c, v
+6-1)BODY 의 raw 선택 -> JSON(application/sjon) 선택
+6-2)json 형식은 아래 ctrl+c, v
 ```
 {
 	"id" : 1
 }
 ```
-Send
+6-3)Send
