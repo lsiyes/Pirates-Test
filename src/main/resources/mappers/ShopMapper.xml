@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pirates.test.dao.ShopDao">
+
+	<insert id="saveShop" parameterType="shop" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+		INSERT INTO fish_market_shop (
+			  name
+			, owner
+			, description
+			, level
+			, address
+			, phone
+		) VALUES (
+			  #{name}
+			, #{owner}
+			, #{description}
+			, #{level}
+			, #{address}
+			, #{phone}
+		)
+	</insert>
+	
+	<insert id="saveTime" parameterType="time">
+		INSERT INTO fish_market_shop_business_times (
+			  id
+			, day
+			, open
+			, close
+		) VALUES (
+			  #{id}
+			, #{day}
+			, #{open}
+			, #{close}
+		)
+	</insert>
+	
+	<insert id="saveHolidys" parameterType="holiday">
+		INSERT INTO fish_market_shop_holidays (
+			  id
+			, holiday
+		) VALUES (
+			  #{id}
+			, #{holiday}
+		)
+	</insert>
+	
+	<select id="findAllShopOrderByLevel" resultType="shopList">
+		SELECT id
+		     , name
+		     , description
+		     , level
+		  FROM fish_market_shop
+		ORDER BY level
+	</select>
+	
+	<select id="findAllShopTimes" resultType="time">
+		SELECT * 
+		  FROM fish_market_shop_business_times
+		ORDER BY id
+	</select>
+	
+	<select id="findAllShopHolidays" resultType="holiday">
+		SELECT * 
+		  FROM fish_market_shop_holidays
+		ORDER BY id
+	</select>
+	
+	<select id="findShopById" parameterType="int" resultType="shop">
+		SELECT *
+		  FROM fish_market_shop
+		 WHERE id = #{id}
+	</select>
+	
+	<select id="findShopTimesByDays" parameterType="time" resultType="time">
+		SELECT *
+		  FROM fish_market_shop_business_times
+		 WHERE id = #{id}
+		   AND day in
+		<foreach item="item" index="index" collection="dayList" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+	
+	<delete id="deleteShopById" parameterType="shop">
+		DELETE fish_market_shop
+		 WHERE id = #{id}
+	</delete>
+	
+</mapper>
