@@ -1,58 +1,157 @@
-# Pirates-Test
-더 파이러츠 온라인 코딩 테스트
-# 스프링부트 프로젝트 docker image로 build하기 위한 과정
-## 1. Git Installation
-**Windows**   
-Download [git for windows](https://gitforwindows.org)
+# Pirates-Test 더 파이러츠 온라인 코딩 테스트
+## 1. 설치 및 환경설정 가이드
+#### 1-1. Sts4 설치
+Download [IDE for SpringBoot](https://spring.io/tools)
+#### 1-2. 소스코드 다운로드
+Sts4 실행 -> File -> Import -> Project From Git(with smart import) -> Clone URI -> https://github.com/lsiyes/Pirates-Test.git 붙여넣기
+-> master 브랜치 선택 -> 이후 계속 진행 Finish
+#### 1-3. chrome 웹 스토어에서 POSTMAN 앱 설치
+https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop?hl=ko
 
-**Linux and Unix**   
-Download [git for Linux and Unix](https://git-scm.com/download/linux)   
-**유의사항** *아래 과정은 Windows 기준입니다*
+## 2. 테이블 생성 SQL
+#### 2-1. 톰캣 실행 시 shcema.sql을 실행하기 때문에 아래 sql을 따로 수행할 필요는 없습니다.
+```
+DROP TABLE IF EXISTS fish_market_shop_holidays;
+DROP TABLE IF EXISTS fish_market_shop_business_times;
+DROP TABLE IF EXISTS fish_market_shop;
 
-## 2. Setting up Local Git Repository
-#### 2-1. Git Repository Clone 주소 복사
-<img width="800" alt="clone" src="https://user-images.githubusercontent.com/18158548/106550654-e6e08a00-6556-11eb-9266-16b741e2b9ef.PNG">
+CREATE TABLE fish_market_shop (id IDENTITY
+                    , name VARCHAR(15)
+                    , owner VARCHAR(15)
+                    , description VARCHAR(100)
+                    , level BIGINT
+                    , address VARCHAR(50)
+                    , phone VARCHAR(13)
+                    , holidays VARCHAR(100)
+                    );
 
-#### 2-2. 소스코드를 받기 원하는 폴더로 이동 후 우클릭 **Git Bash Here** 선택, 다음의 명령어 수행
-```
-$ git clone [Clone 주소]
-```
-```
-$ git clone https://github.com/nicekr/lge-robot.git
-```
-완료되면 폴더에 master branch의 소스코드가 기본으로 checkOut 되어 있음  
+CREATE TABLE fish_market_shop_business_times (time_id IDENTITY
+                    , id BIGINT
+                    , day VARCHAR(10)
+                    , open VARCHAR(5)
+                    , close VARCHAR(5)
+                    , FOREIGN KEY(id) REFERENCES fish_market_shop ON DELETE CASCADE
+                    );
 
-#### 2-3. 다른 branch 로 변경하고 싶다면 다음의 명령어를 수행
-```
-$ git checkout [branch명]
-```
-```
-$ git checkout develop
-```
-소스코드가 수정되었다면 최신 버전이 유지되는 branch에서 다음의 명령어를 수행
-```
-$ git pull
+CREATE TABLE fish_market_shop_holidays (holiday_id IDENTITY
+                    , id BIGINT
+                    , holiday VARCHAR(10)
+                    , FOREIGN KEY(id) REFERENCES fish_market_shop ON DELETE CASCADE
+                    );
 ```
 
-## 3. Creating a fat JAR Application with SpringBoot
-소스코드를 받은 폴더의 Root에서 다음의 명령어를 수행
+## 3. API 사용 가이드
+#### 3-1. 다운받은 소스코드 프로젝트 Boot Dashboard 에서 was 실행
+#### 3-2. POSTMAN 앱 실행 후 API 진행 순서
+1)PUT localhost:8080/api/shop
+BODY 의 raw 선택 -> JSON(application/sjon) 선택
+json 형식은 아래 ctrl+c, v
+```
+{
+ "name": "인어수산",
+ "owner": "장인어",
+ "description": "인천소래포구 종합어시장 갑각류센터 인어수산",
+ "level": 2,
+ "address": "인천광역시 남동구 논현동 680-1 소래포구 종합어시장 1 층 1 호",
+ "phone": "010-1111-2222",
+"businessTimes": [
+ {
+ "day": "Monday",
+ "open": "13:00",
+ "close": "23:00"
+ },
+ {
+ "day": "Tuesday",
+ "open": "13:00",
+ "close": "23:00"
+ },
+ {
+ "day": "Wednesday",
+ "open": "09:00",
+ "close": "18:00"
+ },
+ {
+ "day": "Thursday",
+ "open": "09:00",
+ "close": "23:00"
+ },
+ {
+ "day": "Friday",
+ "open": "09:00",
+ "close": "23:00"
+ }
+ ]
+}
+```
+Send
 
-**Windows cmd**
+2)PUT localhost:8080/api/shop
+BODY 의 raw 선택 -> JSON(application/sjon) 선택
+json 형식은 아래 ctrl+c, v
 ```
-mvnw clean package
+{
+ "name": "해적수산",
+ "owner": "박해적",
+ "description": "노량진 시장 광어, 참돔 등 싱싱한 고퀄 활어 전문 횟집",
+ "level": 1,
+ "address": "서울 동작구 노량진동 13-8 노량진수산시장 활어 001",
+ "phone": "010-1234-1234",
+"businessTimes": [
+ {
+ "day": "Monday",
+ "open": "09:00",
+ "close": "24:00"
+ },
+ {
+ "day": "Tuesday",
+ "open": "09:00",
+ "close": "24:00"
+ },
+ {
+ "day": "Wednesday",
+ "open": "09:00",
+ "close": "24:00"
+ },
+ {
+ "day": "Thursday",
+ "open": "09:00",
+ "close": "24:00"
+ },
+ {
+ "day": "Friday",
+ "open": "09:00",
+ "close": "24:00"
+ }
+ ]
+}
 ```
-**Windows Powershell**
-```
-.\mvnw clean package
-```
-완료되면 Root폴더 아래 target 이라는 폴더가 생성되고 그 하위에 프로젝트 jar 파일이 생성됨
+Send
 
-## 4. Creating a docker image from SpringBoot JAR
-소스코드를 받은 폴더의 Root에서 다음의 명령어를 수행
+3)PUT localhost:8080/api/holidays
+BODY 의 raw 선택 -> JSON(application/sjon) 선택
+json 형식은 아래 ctrl+c, v
+```
+{
+ "id": 1,
+ "holidays": [
+ "2021-04-30",
+ "2021-05-01"
+ ]
+}
+```
+Send
 
+4)GET localhost:8080/api/shop
+Send
+
+5)GET localhost:8080/api/shopDetail?id=1
+
+6)DELETE localhost:8080/api/shop
+BODY 의 raw 선택 -> JSON(application/sjon) 선택
+json 형식은 아래 ctrl+c, v
 ```
-docker build -t [jar파일명] .
+{
+	"id" : 1
+}
 ```
-```
-docker build -t robot-registry.ainize.ai/local_management:210202 .
-```
+Send
